@@ -24,7 +24,7 @@ SELECT dept_manager.dept_no,
 departments.dept_name,
 dept_manager.emp_no,
 employees.last_name, 
-employees.first_name,
+employees.first_name
 FROM dept_manager
 LEFT JOIN departments
 ON dept_manager.dept_no = departments.dept_no
@@ -32,13 +32,62 @@ LEFT JOIN employees
 ON dept_manager.emp_no = employees.emp_no
 ORDER BY emp_no
 
+--4. List of department number, employee number, along with employee names and department names 
 
-SELECT employees.emp_no,
+
+SELECT dept_emp.dept_no, 
+employees.emp_no,
 employees.last_name,
 employees.first_name,
-dept_emp.dept_no,
 departments.dept_name
 FROM employees 
 INNER JOIN dept_emp ON employees.emp_no=dept_emp.emp_no
 INNER JOIN departments ON departments.dept_no=dept_emp.dept_no
 order by emp_no;
+
+
+--5. List Full names, sex of each employee whose first name is Hercules and last name starting with "B"
+
+SELECT * FROM employees
+WHERE first_name = 'Hercules' AND last_name like 'B%'
+;
+
+
+--6. List of employees Full names, employee number in the Sales department 
+
+SELECT 
+employees.emp_no, 
+employees.last_name, 
+employees.first_name,
+departments.dept_name
+FROM employees 
+LEFT JOIN dept_emp 
+ON employees.emp_no=dept_emp.emp_no
+INNER JOIN departments 
+ON departments.dept_no=dept_emp.dept_no
+WHERE departments.dept_name='Sales';
+
+
+--7. Full names, employee number & Department name of Employees in Sales and Developments departments.
+
+
+SELECT 
+employees.emp_no, 
+employees.last_name, 
+employees.first_name,
+departments.dept_name
+FROM employees 
+LEFT JOIN dept_emp 
+ON employees.emp_no=dept_emp.emp_no
+INNER JOIN departments 
+ON departments.dept_no=dept_emp.dept_no
+WHERE departments.dept_name in ('Sales', 'Development')
+
+
+--8. Frequency of employees with the same last name(How many employees each has the same last name)
+
+
+SELECT last_name, COUNT(*) AS freq_count
+FROM employees
+GROUP BY last_name
+ORDER BY freq_count DESC;
